@@ -1,0 +1,30 @@
+# If you're here that means there was an issue with root_check, not to worry, you can run everything manually:
+
+Connect your phone and make sure in Magisk that "[SharedUID] Shell" has root access, if you cannot find it just skip the step and run these commands in your command prompt:
++======================================================================+
+adb shell
+su
+setprop persist.security.adbinstall 1
+setprop persist.security.adbinput 1
+cp /data/data/com.miui.securitycenter/shared_prefs/remote_provider_preferences.xml /sdcard/
+exit
+exit
+adb pull /sdcard/remote_provider_preferences.xml 
+notepad remote_provider_preferences.xml
+################## IMPORTANT ##################
+Scroll to the bottom of the xml file and put the following after the closing </map> tag:
+
+<boolean name="security_adb_install_enable" value="true" />
+<boolean name="security_adb_input_enable" value="true" />
+
+Save the file and close notepad
+##############################################
+adb shell "rm /sdcard/remote_provider_preferences.xml"
+adb push remote_provider_preferences.xml /sdcard/
+adb shell
+su
+cp /sdcard/remote_provider_preferences.xml /data/data/com.miui.securitycenter/shared_prefs/
+reboot
++======================================================================+
+
+That's all, you're done, enjoy!
